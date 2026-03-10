@@ -12,9 +12,6 @@
   <meta name="author" content="Quality Silkscreens"/>
   <meta name="copyright" content="Quality Silkscreens"/>
 
-  <meta name="geo.region" content="US-VA"/>
-  <meta name="geo.placename" content="Hampton Roads, Virginia"/>
-
   <meta property="og:title" content="Custom Apparel Hampton Roads VA | Quality Silkscreens"/>
   <meta property="og:description" content="Veteran owned. 20+ years. Screen printing, embroidery &amp; DTF on 50+ premium brands. Free design help &amp; free local delivery across Hampton Roads. Call (757) 581-0004."/>
   <meta property="og:type" content="website"/>
@@ -305,7 +302,6 @@
     .hero-btns{flex-direction:column;gap:.5rem;}
     .hero-btns .btn{flex:none;width:100%;max-width:100%;min-width:0;}
   }
-  .hero-mobile-img{display:none;}
 
   .trust-bar{background:var(--ink2);border-bottom:1px solid var(--gold-border);padding:.5rem var(--pad-lg);}
   .trust-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);}
@@ -322,12 +318,16 @@
     .trust-item:nth-child(3),.trust-item:nth-child(4){border-bottom:none;}
   }
 
+  /* FIX #17: pause marquee on hover/focus for vestibular accessibility */
   .marquee-bar{background:var(--gold-btn);background-size:300%;animation:glisten 16s linear infinite;overflow:hidden;padding:.65rem 0;white-space:nowrap;}
+  .marquee-bar:hover .marquee-track,
+  .marquee-bar:focus-within .marquee-track{animation-play-state:paused;}
   .marquee-track{display:inline-flex;animation:marquee 30s linear infinite;}
   .marquee-item{display:inline-flex;align-items:center;gap:1.4rem;padding:0 1.8rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:#1a0e00;}
   .marquee-dot{font-size:.38rem;opacity:.45;}
 
-  .process-strip{background:var(--linen);padding:clamp(2rem,5vw,5rem) var(--pad-lg);scroll-margin-top:var(--nav-h);}
+  /* FIX #20: removed scroll-margin-top from .process-strip (no id, no scroll target) */
+  .process-strip{background:var(--linen);padding:clamp(2rem,5vw,5rem) var(--pad-lg);}
   .process-inner{max-width:1160px;margin:0 auto;}
   .process-header{margin-bottom:1.5rem;}
   .process-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;}
@@ -465,6 +465,13 @@
   .feat span{font-size:.82rem;font-weight:600;color:var(--text);}
 
   .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+  /* Reset native button styles so gallery items look identical to the old divs */
+  button.gallery-item{
+    appearance:none;-webkit-appearance:none;
+    border:none;margin:0;padding:0;
+    font:inherit;text-align:left;
+    background:var(--ink3);
+  }
   .gallery-item{overflow:hidden;position:relative;cursor:pointer;background:var(--ink3);aspect-ratio:3/4;}
   @media(max-width:380px){.gallery-grid{grid-template-columns:1fr;} .gallery-item{aspect-ratio:4/3;}}
   .gallery-item img{width:100%;height:100%;display:block;transition:transform .45s ease;object-fit:cover;}
@@ -520,12 +527,13 @@
   }
   .qform{display:flex;flex-direction:column;gap:.8rem;}
   .flabel{display:block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:.35rem;}
+  /* FIX #9: apply font-size max(16px,...) to ALL form controls to prevent iOS zoom */
   .qform input,.qform textarea,.qform select{
     width:100%;padding:.75rem 1rem;
     border:1px solid #d2ccc0;background:#fff;color:var(--text);
     font-family:'Syne',sans-serif;font-size:max(16px,.85rem);
     transition:border-color .2s,box-shadow .2s;
-    appearance:none;border-radius:0;outline:none;
+    appearance:none;-webkit-appearance:none;border-radius:0;outline:none;
   }
   .qform input:focus,.qform textarea:focus,.qform select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
   .qform input.error,.qform select.error{border-color:#c0392b;box-shadow:0 0 0 2px rgba(192,57,43,.12);}
@@ -537,26 +545,28 @@
   @media(min-width:440px){.form-row{grid-template-columns:1fr 1fr;}}
   .field-error{font-size:.65rem;color:#c0392b;margin-top:.25rem;display:none;}
   .field-error.show{display:block;}
-  .upload-zone{border:2px dashed #ccc5b8;background:#fff;padding:2rem 1.5rem;text-align:center;transition:border-color .2s,background .2s;cursor:pointer;}
-  .upload-zone.drag{border-color:var(--gold);background:rgba(200,144,42,.03);}
-  .upload-zone-icon{color:#c0b8a8;margin-bottom:.7rem;}
-  .upload-zone-title{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;}
-  .upload-zone-sub{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;line-height:1.5;}
-  .upload-zone-btn{display:inline-flex;align-items:center;gap:.5rem;height:42px;padding:0 1.4rem;background:var(--ink);color:#fff;font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;border:none;cursor:pointer;border-radius:100px;transition:background .2s;}
+  /* Upload zone */
+  .upload-zone{border:2px dashed #ccc5b8;background:#fff;padding:1.8rem 1.5rem;text-align:center;transition:border-color .2s,background .2s;border-radius:2px;}
+  .upload-zone.drag{border-color:var(--gold);background:rgba(200,144,42,.04);}
+  .upload-zone-icon{color:#c0b8a8;margin-bottom:.6rem;}
+  .upload-zone-title{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+  .upload-zone-sub{font-size:.72rem;color:var(--muted);margin-bottom:.85rem;line-height:1.5;}
+  .upload-zone-btn{display:inline-flex;align-items:center;gap:.45rem;height:40px;padding:0 1.3rem;background:var(--ink);color:#fff;font-family:'Syne',sans-serif;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;border:none;cursor:pointer;border-radius:100px;transition:background .2s;user-select:none;}
   .upload-zone-btn:hover{background:var(--gold);color:#1a0e00;}
-  .upload-previews{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1rem;}
-  .upload-thumb-box{position:relative;width:76px;height:76px;flex-shrink:0;border:1px solid var(--gold-border);background:var(--ink3);overflow:hidden;}
+  .upload-previews{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem;}
+  .upload-thumb-box{position:relative;width:72px;height:72px;flex-shrink:0;border:1px solid var(--gold-border);background:var(--ink3);overflow:hidden;}
   .upload-thumb-box img{width:100%;height:100%;object-fit:cover;display:block;}
-  .upload-thumb-ext{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:800;color:var(--gold);letter-spacing:.06em;background:rgba(200,144,42,.07);}
-  .upload-thumb-name{position:absolute;bottom:0;left:0;right:0;background:rgba(10,9,8,.82);font-size:.5rem;font-weight:700;color:#fff;padding:.2rem .3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .upload-thumb-remove{position:absolute;top:2px;right:2px;background:rgba(10,9,8,.7);border:none;color:rgba(255,255,255,.6);font-size:.9rem;line-height:1;cursor:pointer;padding:1px 4px;transition:color .2s,background .2s;}
+  .upload-thumb-ext{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:var(--gold);letter-spacing:.06em;background:rgba(200,144,42,.07);}
+  .upload-thumb-name{position:absolute;bottom:0;left:0;right:0;background:rgba(10,9,8,.82);font-size:.48rem;font-weight:700;color:#fff;padding:.18rem .3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .upload-thumb-remove{position:absolute;top:2px;right:2px;background:rgba(10,9,8,.7);border:none;color:rgba(255,255,255,.6);font-size:.9rem;line-height:1;cursor:pointer;padding:1px 4px;transition:color .2s,background .2s;border-radius:2px;}
   .upload-thumb-remove:hover{background:#c0392b;color:#fff;}
-  .upload-status{font-size:.72rem;font-weight:600;margin-top:.5rem;display:block;}
+  .upload-thumb-prog{position:absolute;bottom:0;left:0;height:3px;background:var(--gold);transition:width .3s;width:0%;}
+  .upload-note{font-size:.68rem;color:var(--muted);margin-top:.5rem;line-height:1.5;}
+  .upload-status{font-size:.72rem;font-weight:600;margin-top:.4rem;display:block;}
   .upload-status.uploading{color:var(--gold);}
   .upload-status.done{color:#27ae60;}
   .upload-status.error{color:#c0392b;}
-  .upload-note{font-size:.68rem;color:var(--muted);margin-top:.5rem;line-height:1.5;}
-  @media(max-width:400px){.upload-zone{padding:1.4rem 1rem;}.upload-zone-title{font-size:.82rem;}}
+  @media(max-width:400px){.upload-zone{padding:1.3rem 1rem;}}
   .btn-submit{
     width:100%;height:56px;background:var(--gold-btn);background-size:300%;
     color:#1a0a00;
@@ -578,7 +588,6 @@
 
   .lightbox{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:1.5rem;}
   .lightbox.open{display:flex;}
-  #lbImg{max-width:92vw;max-height:88vh;object-fit:contain;border:1px solid var(--gold-border);}
   .lb-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;color:rgba(255,255,255,.4);font-size:2.2rem;cursor:pointer;line-height:1;transition:color .2s;z-index:2;padding:.4rem;}
   .lb-close:hover{color:var(--gold);}
   .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid var(--gold-border);color:rgba(255,255,255,.6);font-size:1.8rem;width:52px;height:52px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;}
@@ -587,13 +596,13 @@
   .lb-prev{left:.8rem;}.lb-next{right:.8rem;}
 
   footer{background:var(--ink);border-top:1px solid rgba(200,144,42,.15);}
-  .foot-inner{max-width:1160px;margin:0 auto;padding:1.25rem var(--pad-lg) .8rem;display:flex;flex-wrap:wrap;gap:.9rem 1.2rem;}
-  .foot-cols-group{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;flex:1 1 55%;min-width:0;}
+  .foot-inner{max-width:1160px;margin:0 auto;padding:.7rem var(--pad-lg) .5rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;}
+  .foot-cols-group{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;flex:1 1 55%;min-width:0;}
   .foot-brand{flex:1 1 100%;}
-  .foot-brand .f-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:#fff;display:block;margin-bottom:.35rem;letter-spacing:.04em;}
-  .foot-brand .f-tagline{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.6rem;display:block;}
-  .foot-brand p{color:var(--muted);font-size:.82rem;line-height:1.65;max-width:280px;}
-  .foot-contact-links{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.65rem;}
+  .foot-brand .f-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:#fff;display:block;margin-bottom:.2rem;letter-spacing:.04em;}
+  .foot-brand .f-tagline{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.3rem;display:block;}
+  .foot-brand p{color:var(--muted);font-size:.76rem;line-height:1.5;max-width:280px;}
+  .foot-contact-links{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.4rem;}
   .foot-contact-link{
     display:inline-flex;align-items:center;gap:.5rem;
     background:var(--gold-text-grad);background-size:300%;
@@ -606,19 +615,19 @@
   .foot-contact-link:hover{opacity:.8;}
   .foot-vet-badge{
     display:inline-flex;align-items:center;gap:.5rem;
-    border:1px solid var(--gold-border);padding:.4rem .75rem;margin-top:.8rem;
-    font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);
+    border:1px solid var(--gold-border);padding:.3rem .6rem;margin-top:.35rem;
+    font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);
   }
   .foot-vet-badge svg{color:var(--gold);}
-  .foot-col h4{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;margin-bottom:.6rem;}
-  .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+  .foot-col h4{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;margin-bottom:.35rem;}
+  .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.2rem;}
   .foot-col a{color:var(--muted);text-decoration:none;font-size:.86rem;transition:color .2s,padding-left .2s;display:block;}
   .foot-col a:hover{color:#fff;padding-left:.3rem;}
   .foot-email{background:var(--gold-text-grad)!important;background-size:100%!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;font-weight:600;}
   .foot-bottom{
     border-top:1px solid rgba(255,255,255,.06);
-    padding:.7rem var(--pad-lg);max-width:1160px;margin:0 auto;
-    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem;
+    padding:.4rem var(--pad-lg);max-width:1160px;margin:0 auto;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem;
   }
   .foot-bottom p{font-size:.74rem;color:rgba(255,255,255,.2);}
   .foot-bottom a{color:var(--gold);font-size:.76rem;font-weight:600;text-decoration:none;}
@@ -642,6 +651,14 @@
   .midcta-btns{display:flex;flex-wrap:wrap;gap:.75rem;flex-shrink:0;width:100%;}
   @media(min-width:640px){.midcta-btns{width:auto;}}
   @media(max-width:639px){.midcta-btns .btn{width:100%;}}
+
+  /* FIX #5: noscript form notice */
+  .noscript-form-notice{
+    background:#fdf0e0;border:1px solid var(--gold-border);
+    padding:1rem 1.2rem;font-size:.85rem;color:var(--text);line-height:1.6;
+    margin-bottom:1rem;
+  }
+  .noscript-form-notice a{color:var(--gold);font-weight:700;}
 
   @media(prefers-reduced-motion:reduce){
     *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
@@ -720,6 +737,10 @@
     .foot-contact-link{font-size:.74rem;}
     .foot-contact-col{flex:1 1 35%;min-width:160px;}
   }
+
+  /* FIX #11: named classes for object-position instead of inline styles */
+  .img-top-10{object-position:center 10%;}
+  .img-top-20{object-position:center 20%;}
 </style>
 </head>
 <body>
@@ -751,7 +772,8 @@
   </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+<!-- FIX #14: mobile menu now has focus trap handled in JS; aria-modal added -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
   <a href="#home" data-scroll="#home">Home</a>
   <a href="#services" data-scroll="#services">Products</a>
   <a href="#about" data-scroll="#about">About Us</a>
@@ -762,7 +784,8 @@
 
 <main id="main-content">
 
-<section id="home" aria-label="Hero">
+<!-- FIX #15: aria-label updated to be descriptive -->
+<section id="home" aria-labelledby="hero-heading">
   <div class="hero-bg" role="presentation"></div>
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
@@ -775,11 +798,11 @@
         <span class="hero-vet-star" aria-hidden="true">&#9733;</span>
       </div>
       <div class="hero-divider" aria-hidden="true"></div>
-      <h1>
+      <h1 id="hero-heading">
         <span class="h1-line1">High <em>Quality</em></span>
         <em class="h1-line2">Low Cost<span class="money-egg" id="moneyEgg" aria-hidden="true">$</span></em>
       </h1>
-      <p class="hero-sub">Your logo on anything — shirts, hats, jackets &amp; more. Free delivery across Hampton Roads.</p>
+      <p class="hero-sub">Your mark, logo, or brand on anything you need — shirts, hats, jackets, bags &amp; more. Free delivery across Hampton Roads.</p>
       <div class="hero-btns">
         <a href="#quote" data-scroll="#quote" class="btn btn-primary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -936,7 +959,8 @@
     </div>
     <div class="svc-card reveal d1">
       <div class="svc-card-img">
-        <img src="business-wear.jpg" alt="Custom branded business wear, uniforms and polos — screen printing and embroidery, Hampton Roads VA" loading="lazy" width="400" height="260" style="object-position:center 10%;" onerror="this.closest('.svc-card-img').style.background='var(--ink3)'"/>
+        <!-- FIX #11: moved object-position to CSS class -->
+        <img src="business-wear.jpg" alt="Custom branded business wear, uniforms and polos — screen printing and embroidery, Hampton Roads VA" loading="lazy" width="400" height="260" class="img-top-10" onerror="this.closest('.svc-card-img').style.background='var(--ink3)'"/>
         <div class="svc-card-overlay" aria-hidden="true"></div>
       </div>
       <div class="svc-card-body">
@@ -950,7 +974,8 @@
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-card-img">
-        <img src="hats-caps.jpg" alt="Custom embroidered hats and caps — structured caps, beanies and snapbacks, Hampton Roads VA" loading="lazy" width="400" height="260" style="object-position:center 20%;" onerror="this.closest('.svc-card-img').style.background='var(--ink3)'"/>
+        <!-- FIX #11: moved object-position to CSS class -->
+        <img src="hats-caps.jpg" alt="Custom embroidered hats and caps — structured caps, beanies and snapbacks, Hampton Roads VA" loading="lazy" width="400" height="260" class="img-top-20" onerror="this.closest('.svc-card-img').style.background='var(--ink3)'"/>
         <div class="svc-card-overlay" aria-hidden="true"></div>
       </div>
       <div class="svc-card-body">
@@ -1005,7 +1030,13 @@
       </ul>
     </div>
     <div>
-      <form class="qform reveal" id="quoteForm" name="quote" method="POST" action="/" data-netlify="true" data-netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
+      <!-- FIX #5: noscript fallback for users with JS disabled -->
+      <noscript>
+        <div class="noscript-form-notice">
+          JavaScript is required to submit this form. Please <a href="tel:+17575810004">call (757)&nbsp;581-0004</a> or <a href="mailto:quote@qualitysilkscreens.com">email us directly</a> to request a quote.
+        </div>
+      </noscript>
+      <form class="qform reveal" id="quoteForm" name="quote" method="POST" action="/" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="quote"/>
         <p style="display:none"><label>Skip: <input name="bot-field"/></label></p>
 
@@ -1068,29 +1099,32 @@
         </div>
 
         <div>
-          <label class="flabel">Upload Logo or Artwork <span style="font-size:.62rem;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;margin-left:.2rem;">(optional — up to 4 files)</span></label>
-          <!-- FIX #4: Removed fragile inline ondrop in favour of JS-attached handler -->
-          <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload files">
+          <label class="flabel">Upload Logo or Artwork <span style="font-size:.62rem;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;margin-left:.2rem;">(optional — up to 5 files)</span></label>
+          <div class="upload-zone" id="uploadZone">
             <div class="upload-zone-icon">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <p class="upload-zone-title">Drag &amp; drop files here</p>
-            <p class="upload-zone-sub">JPG, PNG, PDF, AI, EPS, SVG — up to 4 files</p>
-            <label class="upload-zone-btn" for="designFiles" style="cursor:pointer;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="upload-zone-sub">JPG, PNG, PDF, AI, EPS, SVG &mdash; up to 5 files, 20 MB each</p>
+            <label class="upload-zone-btn" for="designFiles">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               Browse Files
             </label>
-            <input type="file" id="designFiles" name="design_files" multiple
-              accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.ai,.eps,.svg"
-              style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"/>
           </div>
+          <input type="file" id="designFiles" multiple
+            accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.ai,.eps,.svg,.bmp"
+            style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"
+            aria-label="Upload design files"/>
           <div class="upload-previews" id="uploadPreviews"></div>
           <span class="upload-status" id="uploadStatus"></span>
-          <p class="upload-note">&#128274; Design files attach directly to your quote request.</p>
+          <p class="upload-note" id="uploadNote" style="display:none;">&#128274; Design files are securely uploaded via Uploadcare and attached to your quote request.</p>
+          <!-- Hidden field: comma-separated Uploadcare CDN URLs, submitted with form -->
+          <input type="hidden" name="design_files_urls" id="designFilesUrls" value=""/>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">Submit Quote Request &#8594;</button>
       </form>
+
 
       <div class="form-ok" id="formOk" role="alert" aria-live="polite">
         <div class="ok-icon" aria-hidden="true">&#x2713;</div>
@@ -1160,43 +1194,44 @@
         <div class="feat"><div class="feat-icon" aria-hidden="true">&#10003;</div><span>Full Service, Start to Finish</span></div>
       </div>
     </div>
+    <!-- FIX #16: gallery items changed from div[role="button"] to native <button> elements -->
     <div class="gallery-grid reveal d1" id="workGallery" aria-label="Our work gallery">
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom branded shirt, hat and tote">
+      <button class="gallery-item" type="button" aria-label="View work: Custom branded shirt, hat and tote">
         <img src="gallery-1.jpg" alt="Custom branded shirt, hat and tote bag" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom polo, tee, hat and apron">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom polo, tee, hat and apron">
         <img src="gallery-2.jpg" alt="Custom polo, tee, hat and apron" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom bags, backpack, tees and hat">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom bags, backpack, tees and hat">
         <img src="gallery-3.jpg" alt="Custom bags, backpack, tees and hat" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom embroidered jackets and hats">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom embroidered jackets and hats">
         <img src="gallery-4.jpg" alt="Custom embroidered jackets, polos and hats" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom embroidered hats and beanies">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom embroidered hats and beanies">
         <img src="gallery-5.jpg" alt="Custom embroidered hats and beanies" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Full custom apparel lineup">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Full custom apparel lineup">
         <img src="gallery-6.jpg" alt="Full custom apparel lineup" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom polo, tote and drawstring bag">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom polo, tote and drawstring bag">
         <img src="gallery-7.jpg" alt="Custom polo, tote bag and drawstring bag" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom branded bags and accessories">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom branded bags and accessories">
         <img src="gallery-8.jpg" alt="Custom branded bags and accessories" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
-      <div class="gallery-item" role="button" tabindex="0" aria-label="View work: Custom embroidered polo shirt">
+      </button>
+      <button class="gallery-item" type="button" aria-label="View work: Custom embroidered polo shirt">
         <img src="gallery-9.jpg" alt="Custom embroidered polo shirt" loading="lazy" width="300" height="400" onerror="this.closest('.gallery-item').style.display='none'"/>
         <div class="zoom-hint" aria-hidden="true">&#9906;</div>
-      </div>
+      </button>
     </div>
   </div>
 </section>
@@ -1210,36 +1245,35 @@
     <div class="faq-list reveal d1">
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What is the minimum order quantity?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">There is no strict minimum — we work with orders of all sizes. However, <strong>pricing per unit decreases significantly at higher quantities</strong> (25+, 50+, 100+). If you need fewer than 10 pieces, reach out and we will find the best solution for your budget.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1">There is no strict minimum — we work with orders of all sizes. However, <strong>pricing per unit decreases significantly at higher quantities</strong> (25+, 50+, 100+). If you need fewer than 10 pieces, reach out and we will find the best solution for your budget.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What are your turnaround times?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner"><strong>Standard turnaround is 7–10 business days</strong> from artwork approval. Express turnaround is available on select services and products — mention it when requesting your quote and we'll let you know what's possible.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1"><strong>Standard turnaround is 7–10 business days</strong> from artwork approval. Express turnaround is available on select services and products — mention it when requesting your quote and we'll let you know what's possible.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What file formats do you accept for logos?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">We prefer <strong>vector files (AI, EPS, SVG)</strong>. We also accept <strong>high-resolution PNG or PDF</strong> (300 DPI+). Don&rsquo;t have a print-ready file? Our <strong>free design service</strong> will recreate or clean up your logo at no charge.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1">We prefer <strong>vector files (AI, EPS, SVG)</strong>. We also accept <strong>high-resolution PNG or PDF</strong> (300 DPI+). Don&rsquo;t have a print-ready file? Our <strong>free design service</strong> will recreate or clean up your logo at no charge.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Do you offer design help if I don&rsquo;t have a logo?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">Absolutely. <strong>Logo creation and design assistance is included at no charge</strong> with every order. Whether you have a rough sketch, a low-res image, or just an idea &mdash; our team will build a print-ready design for you before production begins.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1">Absolutely. <strong>Logo creation and design assistance is included at no charge</strong> with every order. Whether you have a rough sketch, a low-res image, or just an idea &mdash; our team will build a print-ready design for you before production begins.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Do you deliver, and where do you serve?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner"><strong>Free local delivery</strong> throughout Hampton Roads: Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, and Portsmouth. We also ship anywhere in the US — contact us for shipping rates on out-of-area orders.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1"><strong>Free local delivery</strong> throughout Hampton Roads: Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, and Portsmouth. We also ship anywhere in the US — contact us for shipping rates on out-of-area orders.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What brands do you carry?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">We source from <strong>50+ leading brands</strong> including Nike, Carhartt, The North Face, Champion, Bella+Canvas, New Era, Brooks Brothers, Eddie Bauer, TravisMathew, Port Authority, Adidas, Under Armour, Columbia, and many more. If you have a specific brand in mind, ask — we can usually source it.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1">We source from <strong>50+ leading brands</strong> including Nike, Carhartt, The North Face, Champion, Bella+Canvas, New Era, Brooks Brothers, Eddie Bauer, TravisMathew, Port Authority, Adidas, Under Armour, Columbia, and many more. If you have a specific brand in mind, ask — we can usually source it.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">How much does custom apparel cost?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">Pricing depends on the garment, quantity, number of print locations, and decoration method. As a general guide: <strong>custom t-shirts start around $12+</strong>, hats from $10+, and outerwear from $18+. Pricing per unit drops significantly at higher quantities. <strong>Contact us for a free, no-obligation quote</strong> — we'll give you exact pricing based on your specific order.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1">Pricing depends on the garment, quantity, number of print locations, and decoration method. As a general guide: <strong>custom t-shirts start around $12+</strong>, hats from $10+, and outerwear from $18+. Pricing per unit drops significantly at higher quantities. <strong>Contact us for a free, no-obligation quote</strong> — we'll give you exact pricing based on your specific order.</div></div>
       </div>
-      <!-- FIX #3: Removed invalid aria-expanded from the <span class="faq-icon"> — it belongs only on the <button> -->
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Do you ship outside Hampton Roads?<span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner"><strong>Yes — we ship anywhere in the United States.</strong> Free local delivery applies throughout Hampton Roads (Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, and Portsmouth). For out-of-area orders, we ship via UPS or FedEx — contact us for shipping rates and options.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner" tabindex="-1"><strong>Yes — we ship anywhere in the United States.</strong> Free local delivery applies throughout Hampton Roads (Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, and Portsmouth). For out-of-area orders, we ship via UPS or FedEx — contact us for shipping rates and options.</div></div>
       </div>
     </div>
   </div>
@@ -1250,7 +1284,7 @@
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-close" id="lbClose" aria-label="Close viewer">&#x2715;</button>
   <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image">&#x2039;</button>
-  <img src="" alt="" id="lbImg"/>
+  <img id="lbImg" alt="" style="display:none;max-width:92vw;max-height:88vh;object-fit:contain;border:1px solid var(--gold-border);"/>
   <button class="lb-nav lb-next" id="lbNext" aria-label="Next image">&#x203A;</button>
 </div>
 
@@ -1313,19 +1347,16 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   'use strict';
 
   var NAV_H = 72;
 
   /* ─────────────────────────────────────────────
-     SMOOTH SCROLL — single unified function
-     Works for every anchor on the page, whether
-     it uses data-scroll or just href="#section"
+     SMOOTH SCROLL
   ───────────────────────────────────────────── */
   function smoothTo(target){
-    // target can be a selector string like "#quote" or a DOM element
     var el = (typeof target === 'string') ? document.querySelector(target) : target;
     if(!el) return;
     var top = el.getBoundingClientRect().top + window.pageYOffset - NAV_H;
@@ -1334,30 +1365,59 @@
 
   /* ─────────────────────────────────────────────
      HAMBURGER + MOBILE MENU
+     FIX #14: full focus trap implementation
   ───────────────────────────────────────────── */
   var burger = document.getElementById('hamburger');
   var mmenu  = document.getElementById('mobileMenu');
+
+  var FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function getFocusableInMenu(){
+    return Array.from(mmenu.querySelectorAll(FOCUSABLE)).filter(function(el){
+      return !el.closest('[style*="display:none"]') && !el.closest('[hidden]');
+    });
+  }
+
+  function trapFocus(e){
+    if(!mmenu.classList.contains('open')) return;
+    var focusable = getFocusableInMenu();
+    if(!focusable.length) return;
+    var first = focusable[0];
+    var last  = focusable[focusable.length - 1];
+    if(e.key === 'Tab'){
+      if(e.shiftKey){
+        if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+      } else {
+        if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    }
+  }
 
   function openMenu(){
     mmenu.classList.add('open');
     burger.setAttribute('aria-expanded', 'true');
     burger.setAttribute('aria-label', 'Close navigation');
+    // Move focus to first item in menu
+    setTimeout(function(){
+      var focusable = getFocusableInMenu();
+      if(focusable.length) focusable[0].focus();
+    }, 50);
+    document.addEventListener('keydown', trapFocus);
   }
   function closeMenu(){
     mmenu.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
     burger.setAttribute('aria-label', 'Open navigation');
+    burger.focus();
+    document.removeEventListener('keydown', trapFocus);
   }
   function isMenuOpen(){ return mmenu.classList.contains('open'); }
 
   if(burger && mmenu){
-    // Toggle on hamburger click
     burger.addEventListener('click', function(e){
       e.stopPropagation();
       isMenuOpen() ? closeMenu() : openMenu();
     });
-
-    // Every link inside mobile menu: close then scroll
     mmenu.querySelectorAll('a').forEach(function(a){
       a.addEventListener('click', function(e){
         var href = this.getAttribute('href') || '';
@@ -1365,37 +1425,28 @@
         if(scroll && scroll !== '#'){
           e.preventDefault();
           closeMenu();
-          // slight delay lets the menu animate shut before scroll fires
           setTimeout(function(){ smoothTo(scroll); }, 320);
         } else {
-          // tel: links etc — just close the menu, let default happen
           closeMenu();
         }
       });
     });
-
-    // Click outside menu to close
     document.addEventListener('click', function(e){
       if(isMenuOpen() && !mmenu.contains(e.target) && !burger.contains(e.target)){
         closeMenu();
       }
     });
-
-    // Escape key to close
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape' && isMenuOpen()) closeMenu();
     });
   }
 
   /* ─────────────────────────────────────────────
-     ALL OTHER ANCHOR CLICKS → smooth scroll
-     Covers: nav links, hero btns, mid-cta, service
-     cards, footer links — everything with href="#x"
+     ANCHOR CLICKS → smooth scroll
   ───────────────────────────────────────────── */
   document.addEventListener('click', function(e){
     var a = e.target.closest('a[href^="#"]');
     if(!a) return;
-    // Skip if this anchor is inside the mobile menu (already handled above)
     if(mmenu && mmenu.contains(a)) return;
     var href = a.getAttribute('href');
     if(!href || href === '#') return;
@@ -1449,7 +1500,7 @@
     function triggerEgg(){
       egg.classList.remove('idle');
       egg.style.animation = 'none';
-      void egg.offsetWidth; // force reflow
+      void egg.offsetWidth;
       egg.style.animation = '';
       function onEnd(e){
         if(e.animationName === 'moneyPulse'){
@@ -1489,35 +1540,27 @@
 
   /* ─────────────────────────────────────────────
      LIGHTBOX / GALLERY
+     FIX #6: stable registration — no double-register race
+     FIX #12: alt text is set on open so screen readers get context
   ───────────────────────────────────────────── */
   var lightbox = document.getElementById('lightbox');
   var lbImg    = document.getElementById('lbImg');
   var imgs = [], lbIdx = 0;
 
-  function registerGalleryItem(img){
-    var item = img.closest('.gallery-item');
-    if(!item || item.dataset.lbRegistered) return;
-    item.dataset.lbRegistered = '1';
-    imgs.push(img);
-    var idx = imgs.length - 1;
-    function openThis(){ openLb(idx); }
-    item.addEventListener('click', openThis);
-    item.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openThis(); }
-    });
+  function registerGalleryItem(item, img, idx){
+    item.addEventListener('click', function(){ openLb(idx); });
+    // Native <button> handles Enter/Space natively — no keydown handler needed (FIX #16)
   }
 
   function initGallery(){
     imgs = [];
-    document.querySelectorAll('#workGallery .gallery-item').forEach(function(item){
-      item.removeAttribute('data-lb-registered');
-    });
-    document.querySelectorAll('#workGallery .gallery-item img').forEach(function(img){
-      if(img.complete && img.naturalWidth > 0){
-        registerGalleryItem(img);
-      } else {
-        img.addEventListener('load', function(){ registerGalleryItem(img); });
-      }
+    var items = document.querySelectorAll('#workGallery .gallery-item');
+    items.forEach(function(item){
+      var img = item.querySelector('img');
+      if(!img) return;
+      var idx = imgs.length;
+      imgs.push(img);
+      registerGalleryItem(item, img, idx);
     });
   }
 
@@ -1525,7 +1568,8 @@
     if(!imgs[i]) return;
     lbIdx = i;
     lbImg.src = imgs[i].src;
-    lbImg.alt = imgs[i].alt;
+    lbImg.alt = imgs[i].alt || 'Gallery image ' + (i + 1);
+    lbImg.style.display = 'block';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
     var lbClose = document.getElementById('lbClose');
@@ -1534,12 +1578,15 @@
   function closeLb(){
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    // Return focus to the gallery item that opened the lightbox
+    var items = document.querySelectorAll('#workGallery .gallery-item');
+    if(items[lbIdx]) items[lbIdx].focus();
   }
   function stepLb(d){
     if(!imgs.length) return;
     lbIdx = (lbIdx + d + imgs.length) % imgs.length;
     lbImg.src = imgs[lbIdx].src;
-    lbImg.alt = imgs[lbIdx].alt;
+    lbImg.alt = imgs[lbIdx].alt || 'Gallery image ' + (lbIdx + 1);
   }
 
   var lbClose = document.getElementById('lbClose');
@@ -1559,31 +1606,36 @@
   });
 
   initGallery();
-  window.addEventListener('load', initGallery);
+  // Note: no window.load re-init needed — gallery buttons are in static HTML
 
   /* ─────────────────────────────────────────────
      FAQ ACCORDION
+     FIX #13: focus moved to answer panel on open
   ───────────────────────────────────────────── */
   document.querySelectorAll('.faq-q').forEach(function(btn){
     btn.addEventListener('click', function(){
       var isOpen = this.getAttribute('aria-expanded') === 'true';
-      // Close all
       document.querySelectorAll('.faq-q').forEach(function(b){
         b.setAttribute('aria-expanded', 'false');
         var panel = b.nextElementSibling;
         if(panel) panel.classList.remove('open');
       });
-      // Open this one if it was closed
       if(!isOpen){
         this.setAttribute('aria-expanded', 'true');
         var panel = this.nextElementSibling;
-        if(panel) panel.classList.add('open');
+        if(panel){
+          panel.classList.add('open');
+          // FIX #13: move focus to answer content for keyboard/AT users
+          var inner = panel.querySelector('.faq-a-inner');
+          if(inner) setTimeout(function(){ inner.focus(); }, 50);
+        }
       }
     });
   });
 
   /* ─────────────────────────────────────────────
      QUOTE FORM — validation + submission
+     FIX #1: broadened success check for Netlify response variants
   ───────────────────────────────────────────── */
   var form      = document.getElementById('quoteForm');
   var formOk    = document.getElementById('formOk');
@@ -1619,10 +1671,23 @@
   function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
 
   function doSubmit(){
-    fetch('/', { method: 'POST', body: new FormData(form) })
+    var fd = new FormData(form);
+    fetch('/', { method: 'POST', body: fd })
       .then(function(r){
-        if(r.ok || r.status === 303 || r.redirected){
+        if(r.status >= 200 && r.status < 400 || r.redirected){
           form.style.display = 'none';
+          var status = document.getElementById('uploadStatus');
+          var note   = document.getElementById('uploadNote');
+          var urlField = document.getElementById('designFilesUrls');
+          var urls = urlField && urlField.value ? urlField.value.split(',').filter(Boolean) : [];
+          if(status && urls.length > 0){
+            status.textContent = '\u2713 ' + urls.length + ' file' + (urls.length !== 1 ? 's' : '') + ' submitted with your request';
+            status.className = 'upload-status done';
+            if(note) note.style.display = '';
+          } else {
+            if(status) status.textContent = '';
+            if(note) note.style.display = 'none';
+          }
           if(formOk){
             formOk.classList.add('visible');
             formOk.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1662,135 +1727,174 @@
   }
 
   /* ─────────────────────────────────────────────
-     FILE UPLOAD — drag & drop + browse + previews
+     UPLOADCARE — direct REST API upload
+     Files upload to Uploadcare CDN; CDN URLs are
+     stored in a hidden field submitted to Netlify.
   ───────────────────────────────────────────── */
-  var uploadedFiles = [];
-  var IMAGE_EXTS    = ['jpg','jpeg','png','gif','webp','svg','bmp'];
-  var zone = document.getElementById('uploadZone');
-  var inp  = document.getElementById('designFiles');
+  (function(){
+    var UC_PUBKEY   = '25e230fca4b810d2582f';
+    var MAX_FILES   = 5;
+    var MAX_BYTES   = 20 * 1024 * 1024; // 20 MB
+    var IMG_EXTS    = ['jpg','jpeg','png','gif','webp','svg','bmp'];
 
-  function setUploadStatus(msg, type){
-    var el = document.getElementById('uploadStatus');
-    if(!el) return;
-    el.textContent = msg;
-    el.className = 'upload-status' + (type ? ' ' + type : '');
-  }
+    var zone      = document.getElementById('uploadZone');
+    var inp       = document.getElementById('designFiles');
+    var previews  = document.getElementById('uploadPreviews');
+    var statusEl  = document.getElementById('uploadStatus');
+    var noteEl    = document.getElementById('uploadNote');
+    var urlField  = document.getElementById('designFilesUrls');
 
-  function renderPreviews(){
-    var container = document.getElementById('uploadPreviews');
-    if(!container) return;
-    container.innerHTML = '';
-    uploadedFiles.forEach(function(item, i){
-      var ext   = (item.name.split('.').pop() || '').toLowerCase();
-      var isImg = IMAGE_EXTS.indexOf(ext) > -1;
-      var box   = document.createElement('div');
-      box.className = 'upload-thumb-box';
+    // Array of { name, cdnUrl, thumbEl, progEl }
+    var uploads = [];
 
-      if(isImg && item.dataUrl){
-        var im = document.createElement('img');
-        im.src = item.dataUrl; im.alt = item.name;
-        box.appendChild(im);
-      } else {
-        var label = document.createElement('div');
-        label.className = 'upload-thumb-ext';
-        label.textContent = ext.toUpperCase() || 'FILE';
-        box.appendChild(label);
-      }
-
-      var name = document.createElement('div');
-      name.className = 'upload-thumb-name';
-      name.textContent = item.name;
-      box.appendChild(name);
-
-      var rm = document.createElement('button');
-      rm.type = 'button';
-      rm.className = 'upload-thumb-remove';
-      rm.setAttribute('aria-label', 'Remove ' + item.name);
-      rm.innerHTML = '&times;';
-      (function(idx){
-        rm.addEventListener('click', function(){
-          uploadedFiles.splice(idx, 1);
-          syncInput(); renderPreviews();
-          var n = uploadedFiles.length;
-          setUploadStatus(n > 0 ? n + ' file' + (n !== 1 ? 's' : '') + ' selected \u2713' : '', n > 0 ? 'done' : '');
-        });
-      }(i));
-      box.appendChild(rm);
-      container.appendChild(box);
-    });
-
-    if(zone){
-      var full = uploadedFiles.length >= 4;
-      zone.style.opacity       = full ? '.5' : '';
-      zone.style.pointerEvents = full ? 'none' : '';
+    function setStatus(msg, type){
+      if(!statusEl) return;
+      statusEl.textContent = msg;
+      statusEl.className = 'upload-status' + (type ? ' ' + type : '');
     }
-  }
 
-  function syncInput(){
-    if(!inp) return;
-    var dt = new DataTransfer();
-    uploadedFiles.forEach(function(f){ if(f.file) dt.items.add(f.file); });
-    inp.files = dt.files;
-  }
-
-  function handleFiles(files){
-    var remaining = 4 - uploadedFiles.length;
-    if(remaining <= 0){ setUploadStatus('Maximum 4 files reached.', 'error'); return; }
-    Array.from(files).slice(0, remaining).forEach(function(file){
-      if(uploadedFiles.length >= 4) return;
-      var entry = { name: file.name, dataUrl: null, file: file };
-      uploadedFiles.push(entry);
-      var ext = (file.name.split('.').pop() || '').toLowerCase();
-      if(IMAGE_EXTS.indexOf(ext) > -1){
-        var reader = new FileReader();
-        var captured = entry;
-        reader.onload = function(ev){
-          captured.dataUrl = ev.target.result;
-          renderPreviews();
-        };
-        reader.readAsDataURL(file);
+    function syncHiddenField(){
+      var urls = uploads.filter(function(u){ return u.cdnUrl; }).map(function(u){ return u.cdnUrl; });
+      if(urlField) urlField.value = urls.join(',');
+      var done = uploads.filter(function(u){ return u.cdnUrl; }).length;
+      var pending = uploads.filter(function(u){ return !u.cdnUrl && !u.failed; }).length;
+      if(pending > 0){
+        setStatus('Uploading' + (uploads.length > 1 ? ' (' + done + '/' + uploads.length + ')' : '') + '\u2026', 'uploading');
+      } else if(done > 0){
+        setStatus('\u2713 ' + done + ' file' + (done !== 1 ? 's' : '') + ' ready', 'done');
+        if(noteEl) noteEl.style.display = '';
+      } else {
+        setStatus('', '');
+        if(noteEl) noteEl.style.display = 'none';
       }
-    });
-    syncInput(); renderPreviews();
-    var n = uploadedFiles.length;
-    if(n > 0) setUploadStatus(n + ' file' + (n !== 1 ? 's' : '') + ' selected \u2713', 'done');
-  }
+    }
 
-  if(zone && inp){
-    // Click anywhere on zone (but not on the label/input itself) → open picker
-    zone.addEventListener('click', function(e){
-      if(e.target.closest('label') || e.target.tagName === 'INPUT') return;
-      inp.click();
-    });
+    function renderThumbs(){
+      if(!previews) return;
+      previews.innerHTML = '';
+      uploads.forEach(function(u, idx){
+        var ext  = (u.name.split('.').pop() || '').toLowerCase();
+        var isImg = IMG_EXTS.indexOf(ext) > -1;
+        var box  = document.createElement('div');
+        box.className = 'upload-thumb-box';
 
-    // Keyboard accessibility for the zone
-    zone.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){
+        if(isImg && u.dataUrl){
+          var img = document.createElement('img');
+          img.src = u.dataUrl;
+          img.alt = u.name;
+          box.appendChild(img);
+        } else {
+          var extDiv = document.createElement('div');
+          extDiv.className = 'upload-thumb-ext';
+          extDiv.textContent = ext.toUpperCase();
+          box.appendChild(extDiv);
+        }
+
+        var nameDiv = document.createElement('div');
+        nameDiv.className = 'upload-thumb-name';
+        nameDiv.textContent = u.name;
+        box.appendChild(nameDiv);
+
+        var prog = document.createElement('div');
+        prog.className = 'upload-thumb-prog';
+        prog.style.width = u.cdnUrl ? '100%' : '0%';
+        box.appendChild(prog);
+
+        if(!u.cdnUrl){
+          var rm = document.createElement('button');
+          rm.type = 'button';
+          rm.className = 'upload-thumb-remove';
+          rm.setAttribute('aria-label', 'Remove ' + u.name);
+          rm.innerHTML = '&times;';
+          rm.addEventListener('click', function(){ removeUpload(idx); });
+          box.appendChild(rm);
+        }
+
+        previews.appendChild(box);
+      });
+    }
+
+    function removeUpload(idx){
+      uploads.splice(idx, 1);
+      renderThumbs();
+      syncHiddenField();
+      if(uploads.length === 0) setStatus('', '');
+    }
+
+    function uploadToUC(file, entry){
+      var fd = new FormData();
+      fd.append('UPLOADCARE_PUB_KEY', UC_PUBKEY);
+      fd.append('UPLOADCARE_STORE', '1');
+      fd.append('file', file, file.name);
+
+      fetch('https://upload.uploadcare.com/base/', { method: 'POST', body: fd })
+        .then(function(r){
+          if(!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function(res){
+          if(res && res.file){
+            entry.cdnUrl = 'https://ucarecdn.com/' + res.file + '/';
+            entry.failed = false;
+          } else {
+            entry.failed = true;
+          }
+          renderThumbs();
+          syncHiddenField();
+        })
+        .catch(function(){
+          entry.failed = true;
+          renderThumbs();
+          syncHiddenField();
+          setStatus('Upload failed — please try again or email files to quote@qualitysilkscreens.com', 'error');
+        });
+    }
+
+    function handleFiles(files){
+      var remaining = MAX_FILES - uploads.length;
+      if(remaining <= 0){
+        setStatus('Maximum ' + MAX_FILES + ' files reached.', 'error');
+        return;
+      }
+      var toAdd = Array.prototype.slice.call(files, 0, remaining);
+      toAdd.forEach(function(file){
+        if(file.size > MAX_BYTES){
+          setStatus(file.name + ' exceeds 20 MB limit — skipped.', 'error');
+          return;
+        }
+        var ext   = (file.name.split('.').pop() || '').toLowerCase();
+        var isImg = IMG_EXTS.indexOf(ext) > -1;
+        var entry = { name: file.name, cdnUrl: null, failed: false, dataUrl: null };
+        uploads.push(entry);
+        uploadToUC(file, entry);
+        if(isImg){
+          var reader = new FileReader();
+          reader.onload = function(e){
+            entry.dataUrl = e.target.result;
+            renderThumbs();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      renderThumbs();
+      syncHiddenField();
+    }
+
+    // Wire up zone — browse handled natively by <label for="designFiles">
+    if(zone && inp){
+      zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag'); });
+      zone.addEventListener('dragleave', function(e){ if(!zone.contains(e.relatedTarget)) zone.classList.remove('drag'); });
+      zone.addEventListener('drop', function(e){
         e.preventDefault();
-        inp.click();
-      }
-    });
-
-    // Drag and drop
-    zone.addEventListener('dragover', function(e){
-      e.preventDefault();
-      zone.classList.add('drag');
-    });
-    zone.addEventListener('dragleave', function(){
-      zone.classList.remove('drag');
-    });
-    zone.addEventListener('drop', function(e){
-      e.preventDefault();
-      zone.classList.remove('drag');
-      handleFiles(e.dataTransfer.files);
-    });
-
-    // File picker selection
-    inp.addEventListener('change', function(){
-      handleFiles(this.files);
-      this.value = ''; // reset so same file can be re-added after removal
-    });
-  }
+        zone.classList.remove('drag');
+        handleFiles(e.dataTransfer.files);
+      });
+      inp.addEventListener('change', function(){
+        if(this.files && this.files.length) handleFiles(this.files);
+        this.value = '';
+      });
+    }
+  })();
 
 })();
 </script>
