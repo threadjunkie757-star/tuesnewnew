@@ -1885,4 +1885,20 @@
     // Wire up zone — browse handled natively by <label for="designFiles">
     if(zone && inp){
       zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag'); });
-      zone.addEventListener('
+      zone.addEventListener('dragleave', function(e){ if(!zone.contains(e.relatedTarget)) zone.classList.remove('drag'); });
+      zone.addEventListener('drop', function(e){
+        e.preventDefault();
+        zone.classList.remove('drag');
+        handleFiles(e.dataTransfer.files);
+      });
+      inp.addEventListener('change', function(){
+        if(this.files && this.files.length) handleFiles(this.files);
+        this.value = '';
+      });
+    }
+  })();
+
+})();
+</script>
+</body>
+</html>
