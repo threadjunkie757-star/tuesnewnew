@@ -1015,7 +1015,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.13a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.23-1.23a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           Call&nbsp;(757)&nbsp;581-0004
         </a>
-        <a class="btn btn-outline" id="emailCta" href="mailto:quote@qualitysilkscreens.com">
+        <a class="btn btn-outline" id="emailCta" href="/cdn-cgi/l/email-protection#1c6d697368795c6d697d707568656f7570776f7f6e7979726f327f7371">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
           Email Us Directly
         </a>
@@ -1330,9 +1330,9 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.13a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.23-1.23a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           (757) 581-0004
         </a>
-        <a href="mailto:quote@qualitysilkscreens.com" class="foot-contact-link">
+        <a href="/cdn-cgi/l/email-protection#2455514b504164555145484d505d574d484f57475641414a570a474b49" class="foot-contact-link">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-          quote@qualitysilkscreens.com
+          <span class="__cf_email__" data-cfemail="9dece8f2e9f8ddece8fcf1f4e9e4eef4f1f6eefeeff8f8f3eeb3fef2f0">[email&#160;protected]</span>
         </a>
       </div>
       <ul>
@@ -1343,11 +1343,11 @@
   </div>
   <div class="foot-bottom">
     <p>&copy; 2026 Quality Silkscreens. All Rights Reserved. Hampton Roads, VA.</p>
-    <a href="mailto:quote@qualitysilkscreens.com">quote@qualitysilkscreens.com</a>
+    <a href="/cdn-cgi/l/email-protection#d2a3a7bda6b792a3a7b3bebba6aba1bbbeb9a1b1a0b7b7bca1fcb1bdbf"><span class="__cf_email__" data-cfemail="cfbebaa0bbaa8fbebaaea3a6bbb6bca6a3a4bcacbdaaaaa1bce1aca0a2">[email&#160;protected]</span></a>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   'use strict';
 
@@ -1834,13 +1834,20 @@
         })
         .then(function(res){
           if(res && res.file){
-            entry.cdnUrl = 'https://ucarecdn.com/' + res.file + '/';
-            entry.failed = false;
+            // Fetch file info to get the correct CDN URL for this account
+            return fetch('https://upload.uploadcare.com/info/?pub_key=' + UC_PUBKEY + '&file_id=' + res.file)
+              .then(function(r2){ return r2.json(); })
+              .then(function(info){
+                entry.cdnUrl = (info && info.cdn_url) ? info.cdn_url : 'https://ucarecdn.com/' + res.file + '/';
+                entry.failed = false;
+                renderThumbs();
+                syncHiddenField();
+              });
           } else {
             entry.failed = true;
+            renderThumbs();
+            syncHiddenField();
           }
-          renderThumbs();
-          syncHiddenField();
         })
         .catch(function(){
           entry.failed = true;
@@ -1883,20 +1890,4 @@
     // Wire up zone — browse handled natively by <label for="designFiles">
     if(zone && inp){
       zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag'); });
-      zone.addEventListener('dragleave', function(e){ if(!zone.contains(e.relatedTarget)) zone.classList.remove('drag'); });
-      zone.addEventListener('drop', function(e){
-        e.preventDefault();
-        zone.classList.remove('drag');
-        handleFiles(e.dataTransfer.files);
-      });
-      inp.addEventListener('change', function(){
-        if(this.files && this.files.length) handleFiles(this.files);
-        this.value = '';
-      });
-    }
-  })();
-
-})();
-</script>
-</body>
-</html>
+      zone.addEventListener('
