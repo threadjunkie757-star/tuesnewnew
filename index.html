@@ -1834,15 +1834,10 @@
         })
         .then(function(res){
           if(res && res.file){
-            // Fetch file info to get the correct CDN URL for this account
-            return fetch('https://upload.uploadcare.com/info/?pub_key=' + UC_PUBKEY + '&file_id=' + res.file)
-              .then(function(r2){ return r2.json(); })
-              .then(function(info){
-                entry.cdnUrl = (info && info.cdn_url) ? info.cdn_url : 'https://ucarecdn.com/' + res.file + '/';
-                entry.failed = false;
-                renderThumbs();
-                syncHiddenField();
-              });
+            entry.cdnUrl = 'https://490nporurm.ucarecd.net/' + res.file + '/';
+            entry.failed = false;
+            renderThumbs();
+            syncHiddenField();
           } else {
             entry.failed = true;
             renderThumbs();
