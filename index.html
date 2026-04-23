@@ -37,10 +37,9 @@ a{text-decoration:none;}
 #home,#how,#products,#services,#gallery,#about,#faq,#quote{
   scroll-margin-top:72px;
 }
-/* FIX 10: bumped mobile scroll-margin-top from 60px to 68px for breathing room */
 @media(max-width:768px){
   #home,#how,#products,#services,#gallery,#about,#faq,#quote{
-    scroll-margin-top:68px;
+    scroll-margin-top:60px;
   }
 }
 
@@ -56,8 +55,10 @@ nav{
 nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.09);}
 .logo{display:flex;align-items:center;gap:10px;}
 .logo img{height:32px;width:auto;object-fit:contain;}
-.logo-name{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--navy);letter-spacing:.05em;display:block;}
-.logo-sub{font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;}
+.logo-text{display:flex;flex-direction:column;line-height:1.2;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--navy);letter-spacing:.05em;}
+/* FIX: removed overflow:hidden and max-width that clipped "Hampton Roads, VA" */
+.logo-sub{font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
 .nav-links{display:flex;align-items:center;gap:2px;}
 .nav-links a{font-size:.78rem;font-weight:600;color:var(--muted);padding:6px 11px;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;}
 .nav-links a:hover{color:var(--navy);background:var(--off);}
@@ -71,7 +72,7 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.09);}
 .hamburger[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 
 /* ── MOBILE MENU ── */
-.mob{position:fixed;top:64px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);z-index:999;max-height:0;overflow:hidden;pointer-events:none;transition:max-height .36s cubic-bezier(.4,0,.2,1);}
+.mob{position:fixed;top:60px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);z-index:999;max-height:0;overflow:hidden;pointer-events:none;transition:max-height .36s cubic-bezier(.4,0,.2,1);}
 .mob.open{max-height:480px;pointer-events:all;}
 .mob a{display:block;padding:13px 28px;font-size:.87rem;font-weight:600;color:var(--navy);border-bottom:1px solid var(--off2);text-transform:uppercase;letter-spacing:.06em;transition:background .15s;}
 .mob a:hover{background:var(--off);}
@@ -80,8 +81,8 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.09);}
 /* ── HERO ── */
 .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;overflow:hidden;}
 .hero-bg{position:absolute;inset:0;}
-.hero-bg img{width:100%;height:100%;object-fit:cover;}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,22,35,.92) 42%,rgba(14,22,35,.35) 100%);}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center center;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,22,35,.95) 42%,rgba(14,22,35,.45) 100%);}
 .hero-inner{position:relative;z-index:1;padding:120px 80px 80px;max-width:640px;}
 .hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
 .hero-tag::before{content:'';width:28px;height:1.5px;background:var(--gold);}
@@ -175,46 +176,59 @@ h2.light{color:#fff;}
 .sub.light{color:rgba(255,255,255,.48);}
 .sub.center{margin-left:auto;margin-right:auto;text-align:center;}
 
-/* ── HOW IT WORKS / INFOGRAPHIC IMAGES ── */
-.how-img-wrap{line-height:0;padding:0;overflow:hidden;}
-.how-img-wrap img{width:100%;display:block;}
+/* ── INFOGRAPHIC IMAGE SECTIONS ── */
+.how-img-wrap{line-height:0;padding:0;overflow:hidden;display:block;width:100%;}
+.how-img-wrap img{width:100%;display:block;height:auto;}
 .how-img-wrap img[src=""],
 .how-img-wrap img:not([src]){display:none;}
 .how-img-wrap:has(img[src=""]),
 .how-img-wrap:empty{display:none;}
 
-/* ── PRODUCTS ── */
-.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-/* FIX 9: prod-card as anchor — reset anchor defaults, keep card styles */
-a.prod-card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--rl);
+/* ── PRODUCT BANNERS ── */
+.prod-banner-section{
+  position:relative;
+  line-height:0;
+  padding:0;
   overflow:hidden;
-  display:flex;flex-direction:column;
-  transition:box-shadow .25s,transform .25s;
-  color:inherit;
-  cursor:pointer;
+  display:block;
+  width:100%;
+  background:var(--navy);
 }
-a.prod-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.1);}
-a.prod-card:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
-.prod-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:14px 16px 0;}
-.prod-name{font-size:.88rem;font-weight:700;color:var(--navy);}
-.prod-tag{font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);background:rgba(198,165,91,.1);border:1px solid rgba(198,165,91,.22);padding:2px 8px;border-radius:100px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
-.prod-img{margin:12px;border-radius:10px;overflow:hidden;aspect-ratio:1/1;background:var(--off);position:relative;flex:1;}
-.prod-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-/* FIX 7: removed dead .prod-img::after{content:attr(data-label)} rule */
-a.prod-card:hover .prod-img img{transform:scale(1.04);}
-.prod-foot{padding:8px 16px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
-.prod-methods{display:flex;gap:4px;flex-wrap:wrap;}
-.prod-method{font-size:.58rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);background:var(--off2);padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.prod-banner-section img{
+  width:100%;
+  display:block;
+  height:auto;
+}
+.prod-banner-cta{
+  background:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:20px 40px;
+  flex-wrap:wrap;
+  line-height:1.5;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.prod-banner-cta-text{
+  font-size:.85rem;
+  color:rgba(255,255,255,.5);
+  font-weight:500;
+}
+.prod-banner-cta-text strong{
+  color:#fff;
+  font-weight:700;
+  display:block;
+  font-size:.95rem;
+  margin-bottom:2px;
+}
 
 /* ── GALLERY ── */
 .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px;}
 .gal-item{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;position:relative;background:var(--off2);transition:transform .25s,box-shadow .25s;}
 .gal-item:first-child{grid-column:span 2;aspect-ratio:16/9;}
 .gal-item:hover{transform:scale(1.015);box-shadow:0 10px 32px rgba(0,0,0,.12);}
-.gal-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:zoom-in;} /* FIX 3: cursor hint */
+.gal-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:zoom-in;}
 .gal-item img[src=""],
 .gal-item img:not([src]){display:none;}
 
@@ -243,7 +257,7 @@ a.prod-card:hover .prod-img img{transform:scale(1.04);}
 
 /* ── STATS STRIP ── */
 .stats-strip{
-  display:grid;grid-template-columns:repeat(5,1fr);
+  display:grid;grid-template-columns:repeat(6,1fr);
   gap:1px;
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.07);
@@ -383,8 +397,6 @@ footer{background:#080e18;border-top:1px solid rgba(255,255,255,.05);}
   max-width:1140px;margin:0 auto;
   padding:64px 40px 48px;
   display:grid;
-  /* FIX 5: was 1.4fr 1fr — foot-col had span:2 which broke to row 2.
-     Changed to 3 columns so brand + cities display side-by-side correctly */
   grid-template-columns:1.4fr 1fr 1fr;
   gap:48px;
   border-bottom:1px solid rgba(255,255,255,.06);
@@ -426,32 +438,50 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .reveal.in{opacity:1;transform:none;}
 .d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
 
-/* ══════ RESPONSIVE ══════ */
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
 @media(max-width:1024px){
-  .prod-grid{grid-template-columns:repeat(2,1fr);}
   .why-grid{grid-template-columns:repeat(2,1fr);}
   .stats-strip{grid-template-columns:repeat(3,1fr);}
   .about-grid{grid-template-columns:1fr;gap:36px;}
   .turnaround-inner{grid-template-columns:1fr;}
-  /* FIX 5 continued: collapse 3-col footer to 1-col at tablet */
   .foot-inner{grid-template-columns:1fr;gap:32px;}
+  .prod-banner-cta{padding:16px 24px;}
 }
 
 @media(max-width:768px){
+  /* ── Nav ── */
   nav{padding:0 20px;height:60px;}
   .nav-links{display:none;}
   .hamburger{display:flex;}
-  .mob{top:60px;}
-  .sec{padding:56px 20px;}
-  .hero-inner{padding:90px 24px 60px;}
-  .hero h1{font-size:clamp(2.8rem,10vw,3.8rem);}
-  .hero-btns{flex-direction:column;align-items:flex-start;}
+  /* FIX: hide logo-sub on mobile to avoid crowding, but don't clip with overflow */
+  .logo-sub{display:none;}
 
-  /* FIX 4: trust bar mobile grid — correct border-right only on left-column items.
-     DOM order: trust-item(1) sep(2) trust-item(3) sep(4) trust-item(5) sep(6)
-                trust-item(7) sep(8) trust-item(9) sep(10) trust-item(11)
-     display:none on seps removes them from grid, so trust-items fill 2-col grid:
-     left col = DOM children 1, 5, 9 */
+  /* ── Sections ── */
+  .sec{padding:56px 20px;}
+
+  /* ── Hero mobile ── */
+  .hero{min-height:100svh;align-items:flex-end;}
+  .hero-bg img{object-position:68% center;}
+  .hero-bg::after{
+    background:linear-gradient(
+      to top,
+      rgba(14,22,35,.98) 0%,
+      rgba(14,22,35,.88) 40%,
+      rgba(14,22,35,.55) 70%,
+      rgba(14,22,35,.2) 100%
+    );
+  }
+  .hero-inner{padding:24px 20px 40px;max-width:100%;width:100%;}
+  .hero-tag{font-size:.6rem;margin-bottom:14px;}
+  .hero h1{font-size:clamp(2.6rem,11vw,3.6rem);line-height:.9;margin-bottom:14px;}
+  .hero-sub{font-size:.85rem;max-width:100%;margin-bottom:16px;color:rgba(255,255,255,.72);line-height:1.6;}
+  .hero-timing{font-size:.75rem;margin-bottom:20px;}
+  .hero-btns{flex-direction:column;align-items:stretch;width:100%;gap:10px;}
+  .hero-btns .btn{width:100%;justify-content:center;padding:14px 20px;font-size:.88rem;}
+
+  /* ── Trust bar ── */
   .trust{
     padding:0;
     display:grid;
@@ -468,41 +498,55 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     flex-direction:column;
     gap:3px;
   }
-  /* Only left-column trust items get right border */
   .trust > div:nth-child(1),
   .trust > div:nth-child(5),
   .trust > div:nth-child(9){border-right:1px solid rgba(255,255,255,.06);}
 
-  .prod-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
-  .prod-top{padding:11px 12px 0;}
-  .prod-img{margin:9px;}
-  .prod-foot{padding:8px 12px 13px;}
+  /* ── Product banners ── */
+  .prod-banner-cta{flex-direction:column;align-items:flex-start;padding:16px 20px;gap:12px;}
+  .prod-banner-cta .btn{width:100%;justify-content:center;}
+
+  /* ── Gallery ── */
   .gal-grid{grid-template-columns:1fr 1fr;gap:8px;}
   .gal-item:first-child{grid-column:span 2;}
+
+  /* ── Stats ── */
   .stats-strip{grid-template-columns:repeat(2,1fr);}
+
+  /* ── Why ── */
   .why-grid{grid-template-columns:1fr 1fr;}
+
+  /* ── Turnaround ── */
   .turnaround-band{padding:36px 20px;}
   .ta-cards{grid-template-columns:1fr 1fr;}
+
+  /* ── Quote ── */
   .quote-card{padding:28px 20px;border-radius:14px;}
   .form-grid{grid-template-columns:1fr;}
+
+  /* ── Prefooter ── */
   .prefooter{padding:40px 20px;}
   .prefooter-inner{flex-direction:column;align-items:flex-start;}
+  .prefooter-btns .btn{flex:1;}
+
+  /* ── Footer ── */
   .foot-inner{grid-template-columns:1fr;gap:28px;padding:40px 20px 32px;}
   .foot-bottom{padding:16px 20px;flex-direction:column;align-items:flex-start;}
   .foot-bottom-links{gap:12px;}
+
+  /* ── Sticky ── */
   .sticky{bottom:14px;right:14px;}
   .sticky a span{display:none;}
   .sticky a{padding:13px;border-radius:50%;}
 }
+
 @media(max-width:480px){
-  .prod-grid{grid-template-columns:1fr 1fr;}
   .why-grid{grid-template-columns:1fr;}
   .gal-grid{grid-template-columns:1fr;}
   .gal-item:first-child{grid-column:span 1;aspect-ratio:4/3;}
   .stats-strip{grid-template-columns:repeat(2,1fr);}
   .ta-cards{grid-template-columns:1fr;}
   .ta-card-full{grid-column:span 1;}
-  .prod-method{font-size:.52rem;padding:2px 6px;}
   .upload-zone{padding:20px 16px;}
   .thumbs{gap:8px;}
   .thumb{width:80px;}
@@ -510,7 +554,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .thumb-ext{width:68px;height:58px;}
   .thumb-name{width:68px;}
   .thumb-bar-wrap{width:68px;}
+  .hero h1{font-size:clamp(2.4rem,12vw,3rem);}
 }
+
 @media(prefers-reduced-motion:reduce){
   *,.reveal{animation-duration:.01ms!important;transition-duration:.01ms!important;}
   .reveal{opacity:1;transform:none;}
@@ -521,9 +567,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
 <!-- NAV -->
 <nav id="nav">
+  <!-- FIX: wrapped logo text in .logo-text div for proper flex column layout -->
   <a href="#home" class="logo">
-    <img src="logo.png" alt="Quality Silkscreens logo" onerror="this.style.display='none'">
-    <span><span class="logo-name">Quality Silkscreens</span><span class="logo-sub">Hampton Roads, VA</span></span>
+    <img src="logo.png" alt="" style="display:none" onload="this.style.display='block'" onerror="this.style.display='none'">
+    <div class="logo-text">
+      <span class="logo-name">Quality Silkscreens</span>
+      <span class="logo-sub">Hampton Roads, VA</span>
+    </div>
   </a>
   <div class="nav-links">
     <a href="#services">Services</a>
@@ -637,82 +687,39 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   >
 </section>
 
-<!-- PRODUCTS -->
-<section class="sec bg-off" id="products">
-  <div class="si">
-    <span class="lbl reveal">Products</span>
-    <h2 class="reveal d1">Custom Apparel &amp; Accessories</h2>
-    <p class="sub reveal d1">One piece or a full uniform program &mdash; no order too small, no order too large.</p>
-    <div class="prod-grid">
-
-      <!-- FIX 9: all prod-cards are now <a href="#quote"> for keyboard/click accessibility -->
-      <a href="#quote" class="prod-card reveal d1">
-        <div class="prod-top"><span class="prod-name">T-Shirts</span><span class="prod-tag">From $12/ea</span></div>
-        <div class="prod-img"><img src="images/tshirts.jpg" alt="Custom T-Shirts Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Comfort Colors</span><span class="prod-method">Bella+Canvas</span><span class="prod-method">Gildan</span><span class="prod-method">Port &amp; Company</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d2">
-        <div class="prod-top"><span class="prod-name">Polos &amp; Work Shirts</span><span class="prod-tag">From $22/ea</span></div>
-        <div class="prod-img"><img src="images/polos.jpg" alt="Custom Polos Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Nike</span><span class="prod-method">Under Armour</span><span class="prod-method">Port Authority</span><span class="prod-method">TravisMathew</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d3">
-        <div class="prod-top"><span class="prod-name">Hoodies &amp; Sweatshirts</span><span class="prod-tag">From $28/ea</span></div>
-        <div class="prod-img"><img src="images/hoodies.jpg" alt="Custom Hoodies Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Comfort Colors</span><span class="prod-method">Champion</span><span class="prod-method">Bella+Canvas</span><span class="prod-method">Gildan</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d1">
-        <div class="prod-top"><span class="prod-name">Hats &amp; Caps</span><span class="prod-tag">From $18/ea</span></div>
-        <div class="prod-img"><img src="images/hats.jpg" alt="Custom Hats Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">New Era</span><span class="prod-method">Nike</span><span class="prod-method">Port Authority</span><span class="prod-method">OGIO</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d2">
-        <div class="prod-top"><span class="prod-name">Outerwear &amp; Jackets</span><span class="prod-tag">From $38/ea</span></div>
-        <div class="prod-img"><img src="images/outerwear.jpg" alt="Custom Outerwear Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Carhartt</span><span class="prod-method">The North Face</span><span class="prod-method">Columbia</span><span class="prod-method">Eddie Bauer</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d3">
-        <div class="prod-top"><span class="prod-name">Safety Gear &amp; Work Accessories</span><span class="prod-tag">Custom quoted</span></div>
-        <div class="prod-img"><img src="images/safety-gear.jpg" alt="Custom Safety Gear and Work Accessories Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Hi-Vis Vests</span><span class="prod-method">Work Aprons</span><span class="prod-method">Safety Tees</span><span class="prod-method">Hard Hat Accessories</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d1">
-        <div class="prod-top"><span class="prod-name">Bags, Backpacks &amp; More</span><span class="prod-tag">From $12/ea</span></div>
-        <div class="prod-img"><img src="images/bags.jpg" alt="Custom Bags Backpacks and Accessories Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">OGIO</span><span class="prod-method">Port Authority</span><span class="prod-method">Alternative Apparel</span></div>
-        </div>
-      </a>
-
-      <a href="#quote" class="prod-card reveal d2">
-        <div class="prod-top"><span class="prod-name">Jerseys &amp; Uniforms</span><span class="prod-tag">Custom quoted</span></div>
-        <div class="prod-img"><img src="images/jerseys.jpg" alt="Custom Jerseys Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
-        <div class="prod-foot">
-          <div class="prod-methods"><span class="prod-method">Sport-Tek</span><span class="prod-method">Russell Athletic</span><span class="prod-method">Under Armour</span><span class="prod-method">Adidas</span></div>
-        </div>
-      </a>
-
+<!-- PRODUCT BANNER 1 -->
+<section id="products" class="prod-banner-section">
+  <img
+    src="products-banner.png"
+    alt="Custom Apparel Products — T-Shirts, Polos, Hoodies, Outerwear, Bags, Safety Gear — Quality Silkscreens Hampton Roads VA"
+    loading="lazy"
+    onerror="this.parentElement.style.display='none'"
+  >
+  <div class="prod-banner-cta">
+    <div class="prod-banner-cta-text">
+      <strong>Ready to put your brand on it?</strong>
+      No minimums &bull; Free design help &bull; Free delivery across Hampton Roads
     </div>
+    <a href="#quote" class="btn btn-gold btn-sm">Get a Free Quote &rarr;</a>
   </div>
 </section>
+
+<!-- PRODUCT BANNER 2 -->
+<div class="prod-banner-section">
+  <img
+    src="products-banner-full.png"
+    alt="Full Custom Apparel Catalog — T-Shirts, Polos, Hoodies, Hats, Hi-Vis, Bags, Uniforms, Long Sleeve, Safety Gear, Team Apparel — Quality Silkscreens Hampton Roads VA"
+    loading="lazy"
+    onerror="this.parentElement.style.display='none'"
+  >
+  <div class="prod-banner-cta">
+    <div class="prod-banner-cta-text">
+      <strong>Don't see what you need? We can source it.</strong>
+      50+ brands available &bull; Nike, Carhartt, The North Face, Under Armour &amp; more
+    </div>
+    <a href="tel:+17575810004" class="btn btn-outline-navy btn-sm">&#128222;&nbsp;Call (757) 581-0004</a>
+  </div>
+</div>
 
 <!-- BRANDS BANNER -->
 <div class="how-img-wrap">
@@ -734,7 +741,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
       <div class="form-err-banner" id="formErrBanner" role="alert" aria-live="polite">Please fill in all required fields before submitting.</div>
 
-      <form id="quoteForm" name="quote" method="POST" data-netlify="true" novalidate>
+      <!-- FIX: action="/" ensures Netlify form POST works correctly on all paths -->
+      <form id="quoteForm" name="quote" method="POST" action="/" data-netlify="true" novalidate>
         <input type="hidden" name="form-name" value="quote">
         <p style="display:none"><label>Don&rsquo;t fill this out: <input name="bot-field"></label></p>
 
@@ -824,7 +832,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
             </svg>
             <p>Drag &amp; drop files here</p>
             <small>JPG, PNG, PDF, AI, EPS, SVG &mdash; up to 5 files, 20 MB each</small>
-            <label class="browse-btn" for="fileInput">Choose Files</label>
+            <!-- FIX: label "for" attribute points to fileInput so click works without JS conflict -->
+            <label class="browse-btn" for="fileInput" onclick="event.stopPropagation()">Choose Files</label>
           </div>
           <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.ai,.eps,.svg,.bmp" style="display:none;" aria-label="Upload artwork files">
           <div class="thumbs" id="thumbs" aria-live="polite"></div>
@@ -885,7 +894,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     <h2 class="reveal d1">Hampton Roads' Custom Apparel Shop.</h2>
     <p class="sub reveal d1">Businesses, teams, military units, churches, and events &mdash; outfitted right since 2004.</p>
     <div class="gal-grid reveal">
-      <!-- FIX 3 & 6: gallery images now open lightbox on click; onerror hides broken images -->
       <div class="gal-item"><img src="gallery-1.jpg" alt="Custom t-shirts and hoodies Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
       <div class="gal-item"><img src="gallery-2.jpg" alt="Screen printing Hampton Roads VA" loading="lazy" onerror="this.style.display='none'"></div>
       <div class="gal-item"><img src="gallery-3.jpg" alt="Custom bags and accessories" loading="lazy" onerror="this.style.display='none'"></div>
@@ -930,8 +938,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     <div class="stats-strip reveal" style="margin-top:48px;" role="list" aria-label="Business stats">
       <div class="stat-item" role="listitem"><div class="stat-num">20+</div><div class="stat-lbl">Years in<br>Business</div></div>
       <div class="stat-item" role="listitem"><div class="stat-num">500+</div><div class="stat-lbl">Local Businesses<br>Outfitted</div></div>
-      <div class="stat-item" role="listitem"><div class="stat-num">0</div><div class="stat-lbl">Order<br>Minimums</div></div>
       <div class="stat-item" role="listitem"><div class="stat-num">50+</div><div class="stat-lbl">Premium Brands<br>Available</div></div>
+      <div class="stat-item" role="listitem"><div class="stat-num">5&ndash;10</div><div class="stat-lbl">Day Standard<br>Turnaround</div></div>
+      <div class="stat-item" role="listitem"><div class="stat-num">0</div><div class="stat-lbl">Order<br>Minimums</div></div>
       <div class="stat-item" role="listitem"><div class="stat-num">Free</div><div class="stat-lbl">Local Delivery<br>Always</div></div>
     </div>
   </div>
@@ -1102,8 +1111,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
       </div>
     </div>
 
-    <!-- FIX 5: removed style="grid-column:span 2" — footer is now 3-col grid so this
-         column sits naturally in col 2, spanning into col 3 via grid-column:span 2 of the inner cities grid -->
     <div class="foot-col" style="grid-column:span 2;">
       <h4>Free Delivery To</h4>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
@@ -1155,7 +1162,7 @@ var hbg = document.getElementById('hamburger');
 var mob = document.getElementById('mob');
 hbg.addEventListener('click', function(){
   var open = mob.classList.toggle('open');
-  hbg.setAttribute('aria-expanded', open);
+  hbg.setAttribute('aria-expanded', String(open));
 });
 document.addEventListener('click', function(e){
   if (!hbg.contains(e.target) && !mob.contains(e.target)){
@@ -1207,7 +1214,7 @@ document.querySelectorAll('.faq-btn').forEach(function(btn){
   });
 });
 
-/* ── LIGHTBOX (shared by gallery + upload thumbnails) ── */
+/* ── LIGHTBOX ── */
 var lightbox      = document.getElementById('imgLightbox');
 var lightboxImg   = document.getElementById('lightboxImg');
 var lightboxClose = document.getElementById('lightboxClose');
@@ -1222,15 +1229,16 @@ function openLightbox(src, altText){
 function closeLightbox(){
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
+  lightboxImg.src = '';
 }
 lightboxClose.addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
 
-/* FIX 3: Wire gallery images to lightbox */
+/* Wire gallery images to lightbox */
 document.querySelectorAll('.gal-item img').forEach(function(img){
   img.addEventListener('click', function(){
-    if (img.src) openLightbox(img.src, img.alt);
+    if (img.src && img.src !== window.location.href) openLightbox(img.src, img.alt);
   });
 });
 
@@ -1257,7 +1265,6 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
 
   function syncUrls(){
     var done    = uploads.filter(function(u){ return u.url; });
-    /* FIX 1: check the uploads array directly — not the status text */
     var pending = uploads.filter(function(u){ return !u.url && !u.fail; });
     urlsEl.value = done.map(function(u){ return u.url; }).join(',');
     if (pending.length){
@@ -1269,7 +1276,6 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
     }
   }
 
-  /* FIX 1: exported so form submit guard can access it */
   function hasPendingUploads(){
     return uploads.some(function(u){ return !u.url && !u.fail; });
   }
@@ -1351,7 +1357,6 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
     });
   }
 
-  /* FIX 2: upload with 30s timeout via AbortController */
   function doUpload(file, entry){
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timeoutId = setTimeout(function(){
@@ -1384,7 +1389,7 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
       })
       .catch(function(err){
         clearTimeout(timeoutId);
-        if (err && err.name === 'AbortError') return; /* timeout handler already ran */
+        if (err && err.name === 'AbortError') return;
         entry.fail = true;
         renderThumbs();
         setStatus('Upload failed \u2014 email files to quote@qualitysilkscreens.com', 'fail');
@@ -1416,14 +1421,17 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
     syncUrls();
   }
 
-  zone.addEventListener('click',     function(e){ if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') return; inp.click(); });
+  /* FIX: zone click no longer double-triggers when clicking the label/input directly */
+  zone.addEventListener('click', function(e){
+    if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') return;
+    inp.click();
+  });
   zone.addEventListener('dragover',  function(e){ e.preventDefault(); zone.classList.add('over'); });
   zone.addEventListener('dragleave', function(e){ if (!zone.contains(e.relatedTarget)) zone.classList.remove('over'); });
   zone.addEventListener('drop',      function(e){ e.preventDefault(); zone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
   zone.addEventListener('keydown',   function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); inp.click(); } });
-  inp.addEventListener('change',     function(){ if (inp.files.length) handleFiles(inp.files); inp.value = ''; });
+  inp.addEventListener('change',     function(){ if (inp.files && inp.files.length) handleFiles(inp.files); inp.value = ''; });
 
-  /* Expose pending check for form submit */
   window._qsHasPendingUploads = hasPendingUploads;
 }());
 
@@ -1460,7 +1468,7 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
     showFieldError(fnEl, 'err-first_name', !fnOk);
     if (!fnOk) valid = false;
 
-    var emOk = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(emEl.value);
+    var emOk = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(emEl.value.trim());
     showFieldError(emEl, 'err-email', !emOk);
     if (!emOk) valid = false;
 
@@ -1475,7 +1483,6 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
       return;
     }
 
-    /* FIX 1: use uploads array state, not status text */
     if (window._qsHasPendingUploads && window._qsHasPendingUploads()){
       var statusEl = document.getElementById('uploadStatus');
       if (statusEl){
@@ -1511,7 +1518,6 @@ document.querySelectorAll('.gal-item img').forEach(function(img){
     });
   });
 
-  /* FIX 8: clear errors on both input and blur */
   ['first_name','email','service'].forEach(function(name){
     var el = form.querySelector('[name=' + name + ']');
     if (!el) return;
